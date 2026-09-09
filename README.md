@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -1715,7 +1716,106 @@ window.addEventListener(
 );
 
 </script>
+<script>
+/* =====================================================
+   MEMBERSIHKAN TEKS <!DOCTYPE html> YANG TIDAK SENGAJA
+   MUNCUL DI TAMPILAN
+===================================================== */
 
+(function bersihkanDoctype() {
+
+  function bersihkan(node) {
+
+    if (!node) return;
+
+    /*
+     * Jika node berupa teks biasa
+     */
+    if (node.nodeType === Node.TEXT_NODE) {
+
+      if (
+        node.textContent
+          .replace(/\s+/g, ' ')
+          .trim()
+          .includes('<!DOCTYPE html>')
+      ) {
+
+        node.textContent =
+          node.textContent.replace(
+            /<!DOCTYPE html>/gi,
+            ''
+          );
+
+      }
+
+      return;
+    }
+
+    /*
+     * Jangan menghapus isi script/style
+     */
+    if (
+      node.nodeType === Node.ELEMENT_NODE &&
+      (
+        node.tagName === 'SCRIPT' ||
+        node.tagName === 'STYLE'
+      )
+    ) {
+
+      return;
+
+    }
+
+    /*
+     * Periksa seluruh anak elemen
+     */
+    Array.from(node.childNodes)
+      .forEach(bersihkan);
+
+  }
+
+
+  /*
+   * Bersihkan saat halaman selesai dimuat
+   */
+  bersihkan(document.body);
+
+
+  /*
+   * Pantau apabila teks tersebut muncul kembali
+   */
+  const observer =
+    new MutationObserver(
+      function(mutations) {
+
+        mutations.forEach(
+          function(mutation) {
+
+            mutation.addedNodes.forEach(
+              function(node) {
+
+                bersihkan(node);
+
+              }
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  observer.observe(
+    document.body,
+    {
+      childList: true,
+      subtree: true
+    }
+  );
+
+})();
+</script>
 </body>
 
 </html>
