@@ -3,248 +3,262 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <meta
-    name="theme-color"
-    content="#0f3c68"
-  >
+<meta
+  name="theme-color"
+  content="#0f3c68"
+>
 
-  <title>Scanner Absensi Siswa</title>
+<title>Scanner Absensi Siswa</title>
 
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
-  <script
-    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
-  </script>
+<style>
 
+* {
+  box-sizing: border-box;
+}
 
-  <style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+.header {
+  background: linear-gradient(
+    135deg,
+    #0f3c68,
+    #1769aa
+  );
+  color: white;
+  padding: 18px;
+  text-align: center;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #1e293b;
-    }
+.header h1 {
+  margin: 0;
+  font-size: 21px;
+}
 
-    .header {
-      background: linear-gradient(
-        135deg,
-        #0f3c68,
-        #1769aa
-      );
-      color: white;
-      padding: 18px;
-      text-align: center;
-    }
+.header p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  opacity: .9;
+}
 
-    .header h1 {
-      margin: 0;
-      font-size: 21px;
-    }
+.container {
+  max-width: 560px;
+  margin: auto;
+  padding: 18px 12px 35px;
+}
 
-    .header p {
-      margin: 6px 0 0;
-      font-size: 13px;
-      opacity: .9;
-    }
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow:
+    0 4px 18px rgba(0,0,0,.08);
+  margin-bottom: 15px;
+}
 
-    .container {
-      max-width: 560px;
-      margin: auto;
-      padding: 18px 12px 35px;
-    }
+.status {
+  padding: 13px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
 
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow:
-        0 4px 18px rgba(0,0,0,.08);
-      margin-bottom: 15px;
-    }
+.status.success {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
 
-    .status {
-      padding: 13px;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: bold;
-      line-height: 1.5;
-      margin-bottom: 15px;
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-    }
+.status.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
 
-    .status.success {
-      background: #dcfce7;
-      color: #166534;
-      border-color: #86efac;
-    }
+.status.warning {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
+}
 
-    .status.error {
-      background: #fee2e2;
-      color: #991b1b;
-      border-color: #fca5a5;
-    }
+#reader {
+  width: 100%;
+  min-height: 260px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000;
+  border: 3px solid #2563eb;
+}
 
-    .status.warning {
-      background: #fef3c7;
-      color: #92400e;
-      border-color: #fcd34d;
-    }
+#reader video {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover;
+}
 
-    #reader {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 16px;
-      background: #000;
-      border: 3px solid #2563eb;
-    }
+#reader__dashboard {
+  display: none !important;
+}
 
-    #reader video {
-      width: 100% !important;
-      height: auto !important;
-    }
+#reader__scan_region {
+  min-height: 260px;
+}
 
-    #reader__dashboard {
-      display: none !important;
-    }
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
 
-    #reader__scan_region {
-      min-height: 260px;
-    }
+.btn {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
+.btn-camera {
+  background: #2563eb;
+  color: white;
+}
 
-    .btn {
-      flex: 1;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.btn-stop {
+  background: #dc2626;
+  color: white;
+}
 
-    .btn-camera {
-      background: #2563eb;
-      color: white;
-    }
+.btn:active {
+  transform: scale(.98);
+}
 
-    .btn-stop {
-      background: #dc2626;
-      color: white;
-    }
+.manual {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
 
-    .btn-test {
-      background: #e2e8f0;
-      color: #334155;
-    }
+.manual input {
+  flex: 1;
+  min-width: 0;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 15px;
+  outline: none;
+}
 
-    .manual {
-      display: flex;
-      gap: 8px;
-      margin-top: 15px;
-    }
+.manual input:focus {
+  border-color: #2563eb;
+}
 
-    .manual input {
-      flex: 1;
-      min-width: 0;
-      border: 2px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 13px;
-      font-size: 15px;
-      outline: none;
-    }
+.manual button {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 16px;
+  background: #16a34a;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .manual input:focus {
-      border-color: #2563eb;
-    }
+.student {
+  display: none;
+  margin-top: 15px;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 15px;
+  text-align: center;
+}
 
-    .manual button {
-      border: none;
-      border-radius: 12px;
-      padding: 13px 16px;
-      background: #16a34a;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.student.show {
+  display: block;
+}
 
-    .student {
-      display: none;
-      margin-top: 15px;
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 15px;
-      text-align: center;
-    }
+.student h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
 
-    .student.show {
-      display: block;
-    }
+.student p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #64748b;
+}
 
-    .student h2 {
-      margin: 0 0 6px;
-      font-size: 20px;
-    }
+.result-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
 
-    .student p {
-      margin: 4px 0;
-      font-size: 13px;
-      color: #64748b;
-    }
+.info {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.7;
+  text-align: center;
+}
 
-    .info {
-      font-size: 12px;
-      color: #64748b;
-      line-height: 1.6;
-      text-align: center;
-    }
+.api-status {
+  text-align: center;
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 10px;
+}
 
-    @media(max-width: 480px) {
+@media(max-width: 480px) {
 
-      .buttons {
-        flex-direction: column;
-      }
+  .buttons {
+    flex-direction: column;
+  }
 
-      .manual {
-        display: block;
-      }
+  .manual {
+    display: block;
+  }
 
-      .manual input {
-        width: 100%;
-        margin-bottom: 8px;
-      }
+  .manual input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 
-      .manual button {
-        width: 100%;
-      }
-    }
+  .manual button {
+    width: 100%;
+  }
 
-  </style>
+}
+
+</style>
 
 </head>
 
-
 <body>
-
 
 <header class="header">
 
@@ -264,7 +278,6 @@
 
 <section class="card">
 
-
   <div
     id="status"
     class="status">
@@ -281,6 +294,7 @@
   <div class="buttons">
 
     <button
+      type="button"
       class="btn btn-camera"
       onclick="startScanner()">
 
@@ -290,6 +304,7 @@
 
 
     <button
+      type="button"
       class="btn btn-stop"
       onclick="stopScanner()">
 
@@ -312,13 +327,22 @@
       onkeydown="manualEnter(event)"
     >
 
-
     <button
+      type="button"
       onclick="prosesManual()">
 
       ABSEN
 
     </button>
+
+  </div>
+
+
+  <div
+    id="apiStatus"
+    class="api-status">
+
+    Mengecek koneksi server...
 
   </div>
 
@@ -335,24 +359,26 @@
 
   <p>
     NIS:
-    <span id="studentNIS">
-      -
-    </span>
+    <strong id="studentNIS">-</strong>
   </p>
 
   <p>
     Kelas:
-    <span id="studentKelas">
-      -
-    </span>
+    <strong id="studentKelas">-</strong>
   </p>
 
   <p>
     Jurusan:
-    <span id="studentJurusan">
-      -
-    </span>
+    <strong id="studentJurusan">-</strong>
   </p>
+
+  <div
+    id="resultBadge"
+    class="result-badge">
+
+    -
+
+  </div>
 
 </section>
 
@@ -361,11 +387,9 @@
 
   <div class="info">
 
-    <strong>
-      Alur Absensi
-    </strong>
+    <strong>ALUR ABSENSI</strong>
 
-    <br>
+    <br><br>
 
     Scan pertama →
     <strong>MASUK</strong>
@@ -390,6 +414,12 @@
     Pukul 15:00 ke atas →
     <strong>PULANG</strong>
 
+    <br><br>
+
+    <strong>
+      Scanner terhubung langsung ke Google Sheets.
+    </strong>
+
   </div>
 
 </section>
@@ -400,18 +430,21 @@
 
 <script>
 
-
 /* =====================================================
-   KONFIGURASI
+   KONFIGURASI API
 ===================================================== */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbz9YLdUl9m6A-3OChKowjsFJKTNndmRLp9RwMbj2bXBNVe2E2s0GpKIe2SDrlfnHj8g/exec";
+  "https://script.google.com/macros/s/AKfycbzDJxMaAGQrLbrCzBqBlwx3Dc2Uh2HLNJXwEAZ3cOGAkABZcTcRDHbjtW_9C3VkkMbNpw/exec";
 
 
 const DEVICE_NAME =
   "Scanner Kamera HP";
 
+
+/* =====================================================
+   VARIABEL
+===================================================== */
 
 let scanner = null;
 
@@ -428,23 +461,13 @@ let waktuScanTerakhir = 0;
    STATUS
 ===================================================== */
 
-function setStatus(
-  pesan,
-  tipe
-) {
+function setStatus(pesan, tipe = "") {
 
   const el =
-    document.getElementById(
-      "status"
-    );
-
+    document.getElementById("status");
 
   el.className =
-    "status " +
-    (
-      tipe || ''
-    );
-
+    "status " + tipe;
 
   el.innerHTML =
     pesan;
@@ -457,13 +480,12 @@ function setStatus(
 
 async function startScanner() {
 
-  if (
-    scannerAktif
-  ) {
+  if (scannerAktif) {
 
     setStatus(
-      "📷 Kamera sudah aktif. Silakan arahkan ke barcode.",
-      ""
+      "📷 Kamera sudah aktif.<br>" +
+      "Silakan arahkan kamera ke QR Code siswa.",
+      "success"
     );
 
     return;
@@ -478,13 +500,14 @@ async function startScanner() {
     );
 
 
-    if (!scanner) {
+    /*
+     * Buat objek scanner baru.
+     * Ini membuat proses buka/tutup kamera
+     * lebih stabil setelah scan.
+     */
 
-      scanner =
-        new Html5Qrcode(
-          "reader"
-        );
-    }
+    scanner =
+      new Html5Qrcode("reader");
 
 
     const config = {
@@ -496,11 +519,9 @@ async function startScanner() {
         height: 180
       },
 
-      aspectRatio:
-        1.7777778,
+      aspectRatio: 1.7777778,
 
-      disableFlip:
-        false
+      disableFlip: false
 
     };
 
@@ -508,24 +529,21 @@ async function startScanner() {
     await scanner.start(
 
       {
-        facingMode:
-          "environment"
+        facingMode: "environment"
       },
 
       config,
 
       function(decodedText) {
 
-        suksesScan(
-          decodedText
-        );
+        suksesScan(decodedText);
 
       },
 
       function(errorMessage) {
 
         /*
-         * Error pembacaan frame
+         * Kesalahan pembacaan frame
          * tidak perlu ditampilkan.
          */
 
@@ -534,33 +552,57 @@ async function startScanner() {
     );
 
 
-    scannerAktif =
-      true;
+    scannerAktif = true;
 
 
     setStatus(
-      "🟢 Kamera aktif. Arahkan kamera belakang HP ke QR Code / Barcode siswa.",
+      "🟢 KAMERA AKTIF<br>" +
+      "Arahkan kamera belakang HP ke QR Code siswa.",
       "success"
     );
 
+  }
 
-  } catch (error) {
+  catch(error) {
 
     console.error(
+      "Gagal membuka kamera:",
       error
     );
 
 
-    scannerAktif =
-      false;
+    scannerAktif = false;
+
+
+    let pesan =
+      "❌ Kamera tidak dapat dibuka.";
+
+
+    if (
+      location.protocol !== "https:" &&
+      location.hostname !== "localhost"
+    ) {
+
+      pesan +=
+        "<br><br>" +
+        "Halaman scanner harus dibuka melalui HTTPS.";
+
+    } else {
+
+      pesan +=
+        "<br><br>" +
+        "Pastikan izin kamera browser sudah diberikan.";
+
+    }
 
 
     setStatus(
-      "❌ Kamera tidak dapat dibuka.<br><br>" +
-      "Pastikan halaman dibuka melalui HTTPS dan izin kamera sudah diberikan pada browser.",
+      pesan,
       "error"
     );
+
   }
+
 }
 
 
@@ -568,20 +610,16 @@ async function startScanner() {
    HASIL SCAN
 ===================================================== */
 
-async function suksesScan(
-  decodedText
-) {
+async function suksesScan(decodedText) {
 
-  if (
-    sedangMemproses
-  ) {
+  if (sedangMemproses) {
     return;
   }
 
 
   const barcode =
     String(
-      decodedText || ''
+      decodedText || ""
     ).trim();
 
 
@@ -595,18 +633,17 @@ async function suksesScan(
 
 
   /*
-   * CEGAH SCAN BERULANG
+   * Cegah QR yang sama terbaca berkali-kali
    */
 
   if (
 
-    barcode ===
-    barcodeTerakhir &&
+    barcode === barcodeTerakhir &&
 
     (
       sekarang -
       waktuScanTerakhir
-    ) < 3000
+    ) < 4000
 
   ) {
 
@@ -627,39 +664,42 @@ async function suksesScan(
 
   try {
 
+    /*
+     * Matikan kamera sementara
+     */
+
     await stopScanner();
 
 
     setStatus(
-      "⏳ Barcode terbaca: <strong>" +
-      escapeHTML(
-        barcode
-      ) +
-      "</strong><br>Memproses absensi...",
+      "🔎 Barcode terbaca:<br>" +
+      "<strong>" +
+      escapeHTML(barcode) +
+      "</strong>" +
+      "<br><br>" +
+      "⏳ Memproses absensi...",
       ""
     );
 
 
     const hasil =
-      await kirimBarcode(
-        barcode
-      );
+      await kirimBarcode(barcode);
 
 
-    tampilkanHasil(
-      hasil
-    );
+    tampilkanHasil(hasil);
 
+  }
 
-  } catch (error) {
+  catch(error) {
 
     console.error(
+      "Kesalahan scan:",
       error
     );
 
 
     setStatus(
-      "❌ Gagal mengirim data ke server.<br>" +
+      "❌ Gagal menghubungi server.<br><br>" +
       escapeHTML(
         error.message ||
         String(error)
@@ -667,43 +707,45 @@ async function suksesScan(
       "error"
     );
 
+    bunyiGagal();
 
-  } finally {
+  }
+
+  finally {
 
     sedangMemproses =
       false;
 
 
     /*
-     * Kamera dapat dibuka
-     * kembali setelah 2 detik.
+     * Kamera otomatis aktif kembali
+     * setelah 2 detik.
      */
 
     setTimeout(
       function() {
 
-        if (
-          !scannerAktif
-        ) {
+        if (!scannerAktif) {
 
           startScanner();
+
         }
 
       },
       2000
     );
+
   }
+
 }
 
 
 /* =====================================================
-   KIRIM BARCODE
-   JSONP
+   KIRIM BARCODE KE GOOGLE APPS SCRIPT
+   MENGGUNAKAN JSONP
 ===================================================== */
 
-function kirimBarcode(
-  barcode
-) {
+function kirimBarcode(barcode) {
 
   return new Promise(
     function(resolve, reject) {
@@ -713,21 +755,16 @@ function kirimBarcode(
         Date.now() +
         "_" +
         Math.floor(
-          Math.random() *
-          10000
+          Math.random() * 100000
         );
 
 
       const script =
-        document.createElement(
-          "script"
-        );
+        document.createElement("script");
 
 
       const url =
-        new URL(
-          API_URL
-        );
+        new URL(API_URL);
 
 
       url.searchParams.set(
@@ -754,8 +791,7 @@ function kirimBarcode(
       );
 
 
-      let selesai =
-        false;
+      let selesai = false;
 
 
       const timer =
@@ -767,8 +803,7 @@ function kirimBarcode(
             }
 
 
-            selesai =
-              true;
+            selesai = true;
 
 
             cleanup();
@@ -776,7 +811,7 @@ function kirimBarcode(
 
             reject(
               new Error(
-                "Server tidak merespons dalam waktu 15 detik."
+                "Server tidak merespons dalam 15 detik."
               )
             );
 
@@ -785,9 +820,7 @@ function kirimBarcode(
         );
 
 
-      window[
-        callbackName
-      ] =
+      window[callbackName] =
         function(data) {
 
           if (selesai) {
@@ -795,21 +828,17 @@ function kirimBarcode(
           }
 
 
-          selesai =
-            true;
+          selesai = true;
 
 
-          clearTimeout(
-            timer
-          );
+          clearTimeout(timer);
 
 
           cleanup();
 
 
-          resolve(
-            data
-          );
+          resolve(data);
+
         };
 
 
@@ -829,13 +858,10 @@ function kirimBarcode(
           }
 
 
-          selesai =
-            true;
+          selesai = true;
 
 
-          clearTimeout(
-            timer
-          );
+          clearTimeout(timer);
 
 
           cleanup();
@@ -846,13 +872,13 @@ function kirimBarcode(
               "Tidak dapat terhubung ke Google Apps Script."
             )
           );
+
         };
 
 
-      document.body
-        .appendChild(
-          script
-        );
+      document.body.appendChild(
+        script
+      );
 
 
       function cleanup() {
@@ -863,11 +889,14 @@ function kirimBarcode(
             callbackName
           ];
 
-        } catch (e) {
+        }
+
+        catch(e) {
 
           window[
             callbackName
           ] = undefined;
+
         }
 
 
@@ -876,114 +905,154 @@ function kirimBarcode(
           script.parentNode
         ) {
 
-          script.parentNode
-            .removeChild(
-              script
-            );
+          script.parentNode.removeChild(
+            script
+          );
+
         }
+
       }
 
     }
   );
+
 }
 
 
 /* =====================================================
-   HASIL DARI SERVER
+   TAMPILKAN HASIL
 ===================================================== */
 
-function tampilkanHasil(
-  res
-) {
+function tampilkanHasil(res) {
 
   if (!res) {
 
     setStatus(
-      "❌ Tidak ada respon dari server.",
+      "❌ Server tidak memberikan respon.",
       "error"
     );
+
+    bunyiGagal();
 
     return;
   }
 
 
-  if (
-    res.sukses
-  ) {
+  /*
+   * ABSENSI BERHASIL
+   */
+
+  if (res.sukses) {
+
+    let tipeHasil =
+      res.tipe || "BERHASIL";
+
+
+    let jam =
+      res.jam
+      ? "<br>🕐 Jam: " +
+        escapeHTML(res.jam)
+      : "";
+
 
     setStatus(
+
       "✅ <strong>" +
       escapeHTML(
         res.pesan ||
         "Absensi berhasil."
       ) +
-      "</strong>",
+      "</strong>" +
+
+      jam,
+
       "success"
+
     );
 
 
-    if (
-      res.siswa
-    ) {
+    if (res.siswa) {
 
       tampilkanSiswa(
         res.siswa
       );
+
     }
+
+
+    tampilkanBadge(
+      tipeHasil
+    );
 
 
     bunyiSukses();
 
 
-  } else {
+    return;
 
-    let tipe =
-      "error";
-
-
-    if (
-      res.tipe ===
-      "BELUM_WAKTU_PULANG"
-    ) {
-
-      tipe =
-        "warning";
-    }
+  }
 
 
-    setStatus(
-      "⚠️ <strong>" +
-      escapeHTML(
-        res.pesan ||
-        "Absensi ditolak."
-      ) +
-      "</strong>",
-      tipe
+  /*
+   * ABSENSI DITOLAK
+   */
+
+  let tipe =
+    "error";
+
+
+  if (
+
+    res.tipe ===
+    "BELUM_WAKTU_PULANG"
+
+  ) {
+
+    tipe =
+      "warning";
+
+  }
+
+
+  setStatus(
+
+    "⚠️ <strong>" +
+    escapeHTML(
+      res.pesan ||
+      "Absensi ditolak."
+    ) +
+    "</strong>",
+
+    tipe
+
+  );
+
+
+  if (res.siswa) {
+
+    tampilkanSiswa(
+      res.siswa
     );
 
-
-    if (
-      res.siswa
-    ) {
-
-      tampilkanSiswa(
-        res.siswa
-      );
-    }
-
-
-    bunyiGagal();
   }
+
+
+  tampilkanBadge(
+    res.tipe ||
+    "DITOLAK"
+  );
+
+
+  bunyiGagal();
+
 }
 
 
 /* =====================================================
-   SISWA
+   TAMPILKAN DATA SISWA
 ===================================================== */
 
-function tampilkanSiswa(
-  siswa
-) {
+function tampilkanSiswa(siswa) {
 
   const el =
     document.getElementById(
@@ -999,34 +1068,87 @@ function tampilkanSiswa(
   document.getElementById(
     "studentNama"
   ).textContent =
-    siswa.nama ||
-    "-";
+    siswa.nama || "-";
 
 
   document.getElementById(
     "studentNIS"
   ).textContent =
-    siswa.nis ||
-    "-";
+    siswa.nis || "-";
 
 
   document.getElementById(
     "studentKelas"
   ).textContent =
-    siswa.kelas ||
-    "-";
+    siswa.kelas || "-";
 
 
   document.getElementById(
     "studentJurusan"
   ).textContent =
-    siswa.jurusan ||
-    "-";
+    siswa.jurusan || "-";
+
 }
 
 
 /* =====================================================
-   MANUAL
+   BADGE HASIL
+===================================================== */
+
+function tampilkanBadge(tipe) {
+
+  const badge =
+    document.getElementById(
+      "resultBadge"
+    );
+
+
+  let teks =
+    tipe;
+
+
+  switch(tipe) {
+
+    case "MASUK":
+      teks = "🟢 ABSEN MASUK";
+      break;
+
+    case "PULANG":
+      teks = "🔵 ABSEN PULANG";
+      break;
+
+    case "STATUS_MANUAL":
+      teks = "⚠️ STATUS MANUAL";
+      break;
+
+    case "BELUM_WAKTU_PULANG":
+      teks = "⏰ BELUM WAKTU PULANG";
+      break;
+
+    case "SUDAH_ABSEN":
+      teks = "ℹ️ SUDAH ABSEN";
+      break;
+
+    case "DUPLIKAT":
+      teks = "⚠️ DUPLIKAT";
+      break;
+
+    default:
+      teks =
+        "ℹ️ " +
+        tipe;
+
+  }
+
+
+  badge.textContent =
+    teks;
+
+}
+
+
+/* =====================================================
+   ABSEN MANUAL
 ===================================================== */
 
 function prosesManual() {
@@ -1039,7 +1161,7 @@ function prosesManual() {
 
   const barcode =
     String(
-      input.value || ''
+      input.value || ""
     ).trim();
 
 
@@ -1050,14 +1172,13 @@ function prosesManual() {
       "warning"
     );
 
+    input.focus();
+
     return;
   }
 
 
-  if (
-    sedangMemproses
-  ) {
-
+  if (sedangMemproses) {
     return;
   }
 
@@ -1067,7 +1188,7 @@ function prosesManual() {
 
 
   setStatus(
-    "⏳ Memproses absensi...",
+    "⏳ Memproses barcode manual...",
     ""
   );
 
@@ -1082,6 +1203,7 @@ function prosesManual() {
       tampilkanHasil(
         res
       );
+
 
       input.value =
         "";
@@ -1101,6 +1223,9 @@ function prosesManual() {
         "error"
       );
 
+
+      bunyiGagal();
+
     }
   )
 
@@ -1110,30 +1235,31 @@ function prosesManual() {
       sedangMemproses =
         false;
 
+
       input.focus();
 
     }
   );
+
 }
 
 
 /* =====================================================
-   ENTER MANUAL
+   ENTER
 ===================================================== */
 
-function manualEnter(
-  event
-) {
+function manualEnter(event) {
 
   if (
-    event.key ===
-    "Enter"
+    event.key === "Enter"
   ) {
 
     event.preventDefault();
 
     prosesManual();
+
   }
+
 }
 
 
@@ -1143,17 +1269,27 @@ function manualEnter(
 
 async function stopScanner() {
 
+  if (!scanner) {
+
+    scannerAktif =
+      false;
+
+    return;
+
+  }
+
+
   try {
 
-    if (
-      scanner &&
-      scannerAktif
-    ) {
+    if (scannerAktif) {
 
       await scanner.stop();
+
     }
 
-  } catch (error) {
+  }
+
+  catch(error) {
 
     console.warn(
       "Stop scanner:",
@@ -1165,24 +1301,25 @@ async function stopScanner() {
 
   try {
 
-    if (
-      scanner
-    ) {
+    await scanner.clear();
 
-      scanner.clear();
-    }
+  }
 
-  } catch (error) {
+  catch(error) {
 
     console.warn(
       "Clear scanner:",
       error
     );
+
   }
 
 
+  scanner = null;
+
   scannerAktif =
     false;
+
 }
 
 
@@ -1198,15 +1335,11 @@ function testAPI() {
 
 
   const script =
-    document.createElement(
-      "script"
-    );
+    document.createElement("script");
 
 
   const url =
-    new URL(
-      API_URL
-    );
+    new URL(API_URL);
 
 
   url.searchParams.set(
@@ -1221,22 +1354,60 @@ function testAPI() {
   );
 
 
-  window[
-    callbackName
-  ] =
+  let selesai =
+    false;
+
+
+  const timer =
+    setTimeout(
+      function() {
+
+        if (selesai) {
+          return;
+        }
+
+
+        selesai = true;
+
+
+        cleanup();
+
+
+        tampilkanStatusAPI(
+          false,
+          "Server tidak merespons."
+        );
+
+      },
+      10000
+    );
+
+
+  window[callbackName] =
     function(data) {
 
-      setStatus(
-        "🟢 " +
-        escapeHTML(
-          data.pesan ||
-          "API aktif."
-        ),
-        "success"
+      if (selesai) {
+        return;
+      }
+
+
+      selesai = true;
+
+
+      clearTimeout(
+        timer
+      );
+
+
+      tampilkanStatusAPI(
+        true,
+        data.pesan ||
+        "API aktif."
       );
 
 
       cleanup();
+
     };
 
 
@@ -1244,23 +1415,40 @@ function testAPI() {
     url.toString();
 
 
+  script.async =
+    true;
+
+
   script.onerror =
     function() {
 
-      setStatus(
-        "🔴 API Google Apps Script tidak dapat dihubungi.",
-        "error"
+      if (selesai) {
+        return;
+      }
+
+
+      selesai = true;
+
+
+      clearTimeout(
+        timer
+      );
+
+
+      tampilkanStatusAPI(
+        false,
+        "Tidak dapat menghubungi API."
       );
 
 
       cleanup();
+
     };
 
 
-  document.body
-    .appendChild(
-      script
-    );
+  document.body.appendChild(
+    script
+  );
 
 
   function cleanup() {
@@ -1271,24 +1459,69 @@ function testAPI() {
         callbackName
       ];
 
-    } catch (e) {}
+    }
+
+    catch(e) {}
 
 
     if (
+      script &&
       script.parentNode
     ) {
 
-      script.parentNode
-        .removeChild(
-          script
-        );
+      script.parentNode.removeChild(
+        script
+      );
+
     }
+
   }
+
 }
 
 
 /* =====================================================
-   BUNYI
+   STATUS API
+===================================================== */
+
+function tampilkanStatusAPI(
+  aktif,
+  pesan
+) {
+
+  const el =
+    document.getElementById(
+      "apiStatus"
+    );
+
+
+  if (aktif) {
+
+    el.innerHTML =
+      "🟢 Server terhubung • " +
+      escapeHTML(pesan);
+
+    el.style.color =
+      "#166534";
+
+  }
+
+  else {
+
+    el.innerHTML =
+      "🔴 Server bermasalah • " +
+      escapeHTML(pesan);
+
+    el.style.color =
+      "#991b1b";
+
+  }
+
+}
+
+
+/* =====================================================
+   BUNYI SUKSES
 ===================================================== */
 
 function bunyiSukses() {
@@ -1297,8 +1530,13 @@ function bunyiSukses() {
     1000,
     0.12
   );
+
 }
 
+
+/* =====================================================
+   BUNYI GAGAL
+===================================================== */
 
 function bunyiGagal() {
 
@@ -1306,8 +1544,13 @@ function bunyiGagal() {
     400,
     0.20
   );
+
 }
 
+
+/* =====================================================
+   AUDIO
+===================================================== */
 
 function bunyi(
   frequency,
@@ -1364,7 +1607,18 @@ function bunyi(
       duration
     );
 
-  } catch (e) {}
+
+  }
+
+  catch(e) {
+
+    console.warn(
+      "Audio:",
+      e
+    );
+
+  }
+
 }
 
 
@@ -1372,51 +1626,70 @@ function bunyi(
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(
-  value
-) {
+function escapeHTML(value) {
 
   return String(
-    value || ''
+    value || ""
   )
+
   .replace(
     /&/g,
     "&amp;"
   )
+
   .replace(
     /</g,
     "&lt;"
   )
+
   .replace(
     />/g,
     "&gt;"
   )
+
   .replace(
     /"/g,
     "&quot;"
   )
+
   .replace(
     /'/g,
     "&#039;"
   );
+
 }
 
 
 /* =====================================================
-   CEK API SAAT HALAMAN DIBUKA
+   SAAT HALAMAN DIBUKA
 ===================================================== */
 
 window.addEventListener(
   "load",
   function() {
 
+    /*
+     * Cek koneksi API
+     */
+
     testAPI();
 
-    document
-      .getElementById(
+
+    /*
+     * Fokus ke input manual
+     */
+
+    const input =
+      document.getElementById(
         "manualBarcode"
-      )
-      .focus();
+      );
+
+
+    if (input) {
+
+      input.focus();
+
+    }
 
   }
 );
@@ -1430,13 +1703,20 @@ window.addEventListener(
   "beforeunload",
   function() {
 
-    stopScanner();
+    if (scanner) {
+
+      scanner.stop()
+        .catch(
+          function() {}
+        );
+
+    }
 
   }
 );
 
-
 </script>
 
 </body>
+
 </html>
