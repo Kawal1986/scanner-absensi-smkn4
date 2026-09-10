@@ -396,23 +396,23 @@ body {
 
     <br>
 
-    Scan kedua mulai pukul 14:00 →
-    <strong>PULANG</strong>
+    Scan kedua mulai pukul 12:00 →
+<strong>PULANG</strong>
 
-    <br>
+<br>
 
-    Sebelum pukul 14:00 →
-    <strong>DITOLAK</strong>
+Sebelum pukul 12:00 →
+<strong>DITOLAK</strong>
 
-    <br>
+<br>
 
-    Pukul 14:00–14:59 →
-    <strong>PULANG LEBIH AWAL</strong>
+Pukul 12:00–14:59 →
+<strong>PULANG LEBIH AWAL</strong>
 
-    <br>
+<br>
 
-    Pukul 15:00 ke atas →
-    <strong>PULANG</strong>
+Pukul 15:00 →
+<strong>PULANG</strong>
 
     <br><br>
 
